@@ -16,7 +16,7 @@ export default function ProfileMenu() {
             <div className='p-5 text-2xl font-bold text-white'>
                 K.Meow Meow
             </div>
-            <Link href="/profile/editing" className='text-white hover:underline'>
+            <Link href="/user/profile" className='text-white hover:underline'>
                 แก้ไขข้อมูลส่วนตัว &gt;
             </Link>
             <button
