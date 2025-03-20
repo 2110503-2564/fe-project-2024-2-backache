@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import InteractiveCard from './InteractiveCard';
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import StarIcon from '@mui/icons-material/Star';
@@ -11,14 +10,14 @@ interface CardProps {
     restaurantName: string;
     imgSrc: string;
     onCompare: (restaurantName: string, rating: number) => void;
-    overallRating?: number;  // เปลี่ยนชื่อ initialRating เป็น overallRating เพื่อความชัดเจน
+    overallRating?: number;  // Renamed initialRating to overallRating for clarity
     rid: string;
 }
 
 export default function RestaurantCard({ restaurantName, imgSrc, onCompare, overallRating = 0, rid }: CardProps) {
     const router = useRouter();
 
-    // ไม่มี useState เพราะใช้ overallRating ตรง ๆ จาก parent
+    // No useState because overallRating is used directly from the parent
     const handleStarClick = () => {
         router.push(`/rating/${rid}`);
     };
