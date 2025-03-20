@@ -1,6 +1,5 @@
-export default function RegisterPage() {
+export default function RegisterBox() {
     return (
-        <main className="flex flex-col h-screen justify-center items-center bg-red-600 px-80">
             <div className="w-full bg-white text-gray-800 py-10 px-20 rounded-3xl shadow-2xl relative">
                 <div className="text-3xl font-bold text-center mt-6 mb-12">
                     Create an account
@@ -23,7 +22,7 @@ export default function RegisterPage() {
                 </div>
                 <div className="flex flex-col justify-center items-center">
                     <div className="relative">
-                        <button className='block bg-red-600 border border-white text-white text-xl font-semibold w-[150px] py-2 px-4 m-5 rounded-xl shadow-sm hover:bg-white hover:text-red-600 hover:border hover:border-red-600'>
+                        <button className='block bg-myred border border-white text-white text-xl font-semibold w-[150px] py-2 px-4 m-5 rounded-xl shadow-sm hover:bg-white hover:text-red-600 hover:border hover:border-red-600'>
                             Sign up
                         </button>
                     </div>
@@ -35,6 +34,5 @@ export default function RegisterPage() {
                     </div>
                 </div>
             </div>
-        </main>
     )
 }
