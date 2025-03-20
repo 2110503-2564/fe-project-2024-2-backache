@@ -5,7 +5,7 @@ import EditingMenu from '@/components/EditingMenu';
 export default function Editing() {
     return (
         <main className="bg-[#D40303] h-screen">
-            <div className='flex justify-left p-10'>
+            <div className='flex justify-center p-10'>
                 <div className='pt-10'>
                     <ProfileMenu/>     
                 </div>

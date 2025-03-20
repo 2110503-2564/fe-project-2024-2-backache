@@ -16,7 +16,7 @@ export default function EditingMenu() {
 
     return (
         <main>
-            <div className="p-5 w-[80vw] mt-10 h-fit rounded-lg shadow-lg bg-white mx-auto px-5">
+            <div className="p-5 w-[70vw] mt-10 h-fit rounded-lg shadow-lg bg-white mx-auto px-5">
                 <h2 className="text-xl font-bold mb-4">
                     ข้อมูลส่วนตัว
                 </h2>
