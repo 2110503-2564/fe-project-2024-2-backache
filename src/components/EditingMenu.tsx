@@ -11,8 +11,8 @@ import { User } from '../../interfaces';
 import { useState } from 'react';
 
 export default function EditingMenu() {
-    
-    const [userData, setUserData] = useState<User>({
+
+    const mockData : User = {
         _id: '12345',
         name: 'K.Meow Meow',
         tel: '123-456-7890',
@@ -20,7 +20,9 @@ export default function EditingMenu() {
         role: 'user',
         createdAt: new Date(),
         __v: 0
-    });
+    }
+    
+    const [userData, setUserData] = useState<User>(mockData);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -30,8 +32,9 @@ export default function EditingMenu() {
         }));
     };
 
-    const handleLogout = () => {
-        alert('Logged out');
+    const handCancle = () => {
+        setUserData(mockData);
+        alert('Cancle');
     };
 
     const handleSave = () => {
@@ -111,7 +114,7 @@ export default function EditingMenu() {
             </div>
             <div className='flex flex-row justify-center'>
                 <button
-                    onClick={handleLogout}
+                    onClick={handCancle}
                     className='mt-10 px-10 py-2 bg-white text-red-600 font-bold rounded-lg hover:bg-gray-400 hover:text-white shadow-lg'
                 >
                     ยกเลิกการเปลี่ยนแปลง
