@@ -1,9 +1,21 @@
 'use client'
+
 import Link from 'next/link';
+import { User } from '../../interfaces';
 
 export default function ProfileMenu() {
     const handleLogout = () => {
-        console.log('Logged out');
+        alert('Logged out');
+    };
+
+    const mockUser: User = {
+        _id: '12345',
+        name: 'K.Meow Meow',
+        tel: '123-456-7890',
+        email: 'meow@example.com',
+        role: 'user',
+        createdAt: new Date(),
+        __v: 0
     };
 
     return (
@@ -14,7 +26,7 @@ export default function ProfileMenu() {
             className='w-36 h-36 rounded-full shadow-lg'
             />
             <div className='p-5 text-2xl font-bold text-white'>
-                K.Meow Meow
+                {mockUser.name}
             </div>
             <Link href="/user/profile" className='text-white hover:underline'>
                 แก้ไขข้อมูลส่วนตัว &gt;

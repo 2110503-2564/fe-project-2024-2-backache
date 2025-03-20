@@ -45,31 +45,24 @@ export interface Pagination {
     next?: {
         page: number;
         limit: number;
-    };
+    },
     prev?: {
         page: number;
         limit: number;
-    };
-    totalItems: number;
-    totalPages: number;
+    }
 }
 
-// export interface User {
-//     _id: string,
-//     name: string,
-//     tel?: string,
-//     email: string,
-//     role: 'user' | 'admin',
-//     password: string,
-//     resetPasswordToken?: string,
-//     resetPasswordExpire?: Date,
-//     createdAt: Date,
+export interface User {
+    _id: string,
+    name: string,
+    tel: string,
+    email: string,
+    role: string,
+    createdAt : Date,
+    __v : number
+}
 
-//     getSignedJwtToken(): string,
-//     matchPassword(enteredPassword: string): Promise<boolean>
-// }
-
-// export interface UserJson {
-//     success: boolean,
-//     data : User
-// }
+export interface UserJson {
+    success: boolean,
+    data : User
+}
