@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --myred: #D40303;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,6 +24,7 @@ body {
 body {
   color: var(--foreground);
   background-color: white;
+  margin-top: 60px;
 }
 
 * {

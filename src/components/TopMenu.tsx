@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default function TopMenu() {
     return (
-        <div className="flex justify-between items-center h-[60px] z-30">
+        <div className="w-full h-[60px] bg-white flex flex-row justify-between items-center z-50 fixed top-0 left-0 right-0">
             <div className="flex items-center">
                 <Link href={'/'} className="flex flex-row items-center">
                     <Image src={'/img/logo.png'} alt='logo' width={0} height={0} sizes='100vh'
