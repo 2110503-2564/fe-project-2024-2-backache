@@ -6,7 +6,7 @@ export default function TopMenu() {
     return (
         <div className="flex justify-between items-center h-[60px] z-30">
             <div className="flex items-center">
-                <Link href={'/'}>
+                <Link href={'/'} className="flex flex-row items-center">
                     <Image src={'/img/logo.png'} alt='logo' width={0} height={0} sizes='100vh'
                         className="w-auto h-auto max-w-[70px] max-h-[70px] pl-2"/>
                     <Image src={'/img/logoText.png'} alt='logo text' width={0} height={0} sizes='100vh'
