@@ -16,8 +16,10 @@ export default function TopMenu() {
                 <TopMenuItem title='Restaurants' pageRef='/restaurants'/>
                 <TopMenuItem title='Reservations' pageRef='/reservations'/>
 
-                <Image src={'/img/profile.png'} alt='logo text' width={0} height={0} sizes='100vh'
-                    className="w-auto h-auto max-w-[60px] max-h-[60px] object-contain pl-2 pr-2"/>
+                <Link href={'/user'}>
+                    <Image src={'/img/profile.png'} alt='logo text' width={0} height={0} sizes='100vh'
+                        className="w-auto h-auto max-w-[60px] max-h-[60px] object-contain pl-2 pr-2"/>
+                </Link>
             </div>
         </div>
     )
