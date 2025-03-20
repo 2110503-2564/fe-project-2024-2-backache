@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongoose';
-
 export interface RestaurantItem {
     _id: string,
     name: string,
@@ -29,8 +27,8 @@ export interface RestaurantJson {
 export interface ReservationItem {
     _id: string,
     revDate: Date,
-    user: ObjectId,
-    restaurant: ObjectId,
+    user: string,
+    restaurant: string,
     numberOfPeople: number,
     createdAt: Date,
     __v: number,
@@ -39,7 +37,7 @@ export interface ReservationItem {
 export interface ReservationJson {
     success: boolean,
     count: number,
-    pagination: Pagination,
+    pagination?: Pagination,
     data: ReservationItem[]
 }
 
