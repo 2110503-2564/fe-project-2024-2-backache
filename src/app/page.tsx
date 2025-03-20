@@ -1,6 +1,4 @@
-import Image from "next/image";
 import Banner from "@/components/Banner"
-import RestaurantCard from "@/components/RestaurantCard";
 import RestaurantCardPanel from "@/components/RestaurantCardPanel";
 
 export default function Home() {
