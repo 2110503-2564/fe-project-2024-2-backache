@@ -12,7 +12,7 @@ export default function TopMenu() {
                      className="w-auto h-[60%] pl-6"/>
             </div>
             <div className="flex items-center">
-                <TopMenuItem title='Home' pageRef='/home'/>
+                <TopMenuItem title='Home' pageRef='/'/>
                 <TopMenuItem title='Restaurants' pageRef='/restaurants'/>
                 <TopMenuItem title='Reservations' pageRef='/reservations'/>
 
