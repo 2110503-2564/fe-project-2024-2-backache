@@ -1,11 +1,16 @@
 'use client'
-import * as React from 'react';
 import Image from "next/image";
 import Rate from '@/components/ReviewRatings';
 import TotalRate from '@/components/OverallRating';
-import { useParams } from 'next/navigation';
+import { RestaurantItem } from '../../../../../interfaces';
+import { useEffect, useReducer, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Button } from "@mui/material";
 
-export default function RatingDetailPage() {
+
+export default function RatingDetailPage(/*{restaurant} : {restaurant : RestaurantItem}*/) {
+    const router = useRouter();
+
     const params = useParams();
     const rid = params?.rid as string;
 
@@ -13,15 +18,15 @@ export default function RatingDetailPage() {
      * Mock Data for Demonstration Only
      */
     const mockRestaurantRepo = new Map();
-    mockRestaurantRepo.set("001", { name: "Restaurant 1", image: "/img/sushi.jpg" });
-    mockRestaurantRepo.set("002", { name: "Restaurant 2", image: "/img/pizza.jpg" });
+    mockRestaurantRepo.set("001", { name: "Restaurant 1", imgPath: "/img/sushi.jpg" });
+    mockRestaurantRepo.set("002", { name: "Restaurant 2", imgPath: "/img/pizza.jpg" });
 
-    const rating = mockRestaurantRepo.get(rid);
+    const restaurant = mockRestaurantRepo.get(rid);
 
-    if (!rating) {
+    if (!restaurant) {
         return (
             <main className="text-center p-5">
-                <h1 className="text-lg font-medium">Rating Not Found</h1>
+                <h1 className="text-lg font-medium">Restaurant Not Found</h1>
             </main>
         );
     }
@@ -37,54 +42,51 @@ export default function RatingDetailPage() {
         }
     };
 
-    const [ratings, dispatch] = React.useReducer(ratingReducer, new Map<string, number>());
-    const [overallRating, setOverallRating] = React.useState(0);
-    const [canCalculate, setCanCalculate] = React.useState(false);
+    const [ratings, dispatch] = useReducer(ratingReducer, new Map<string, number>());
+    const [overallRating, setOverallRating] = useState(0);
 
     const handleRatingChange = (ratingName: string, value: number) => {
         dispatch({ type: 'update', ratingName, value });
         console.log(`Updated ${ratingName} Rating:`, value);
     };
 
-    const calculateOverallRating = () => {
-        const total = ['Food', 'Service', 'Ambiance', 'Value for Money'].reduce((acc, category) => acc + (ratings.get(category) || 0), 0);
-        return total / 4;
-    };
-
-    // ตรวจสอบว่าค่าทุกตัวได้รับการให้คะแนนแล้ว
-    React.useEffect(() => {
-        const allRated = ['Food', 'Service', 'Ambiance', 'Value for Money'].every(category => ratings.has(category));
-        setCanCalculate(allRated);
+    // Check if all categories have been rated
+    useEffect(() => {
+        if (ratings.size > 0) {
+            const total = Array.from(ratings.values()).reduce((acc, value) => acc + value, 0);
+            const newOverallRating = total / ratings.size;
+            setOverallRating(parseFloat(newOverallRating.toFixed(1))); 
+        } else {
+            setOverallRating(0);
+        }
     }, [ratings]);
 
-    // คำนวณค่า Overall Rating เมื่อกดปุ่ม
-    const handleCalculate = () => {
-        if (canCalculate) {
-            const newOverallRating = calculateOverallRating();
-            setOverallRating(parseFloat(newOverallRating.toFixed(1)));  // ปัดทศนิยม 1 ตำแหน่ง
-            console.log(`Overall Rating: ${newOverallRating}`);
-        }
-    };
+    const handleSubmit = () => {
+        if (overallRating < 0) return;
+        
+        alert(`Review submitted successfully!\nOverall Rating: ${overallRating}/5`);
 
+        router.push("/");
+    };
 
     return (
         <main className="text-center">
             <div className="block p-5 m-0 w-screen h-[80vh] relative">
                 <Image
-                src={rating.image}
-                alt="Restaurant Image"
-                fill
-                style={{ objectFit: 'cover' }}
+                    src={restaurant.imgPath}
+                    alt="Restaurant Image"
+                    className="object-cover w-full h-full"
+                    fill
                 />
             </div>
             <div className="text-5xl font-bold mt-5">
-                [ {rating.name} ]
+                [ {restaurant.name} ]
             </div>
             <div className="text-2xl font-bold p-2">
                 Rate the Restaurant
             </div>
             <div>
-                Share your thoughts about [ {rating.name} ] to help the restaurant improve and guide others in their dining choices!
+                Share your thoughts about [ {restaurant.name} ] to help the restaurant improve and guide others in their dining choices!
             </div>
             
             <div className="mt-10 flex flex-wrap flex-row justify-center">
@@ -116,13 +118,23 @@ export default function RatingDetailPage() {
             </div>
 
             {/* Submit Button */}
-            <button
-            onClick={handleCalculate}
-            disabled={!canCalculate}
-            className={`mb-10 px-5 py-2 text-white font-bold rounded ${canCalculate ? 'bg-[#D40303] hover:bg-red-700' : 'bg-gray-400 cursor-not-allowed'}`}
-            >
+            <Button
+                onClick={handleSubmit}
+                variant="contained"
+                sx={{
+                    backgroundColor: 'gray',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    padding: '10px 20px',
+                    borderRadius: '8px',
+                    transition: 'background-color 0.3s',
+                    '&:hover': {
+                        backgroundColor: 'rgb(25, 146, 69)',
+                    },
+                }}>
                 Submit Your Review
-            </button>
+            </Button>
+
         </main>
     );
 }

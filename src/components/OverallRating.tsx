@@ -1,18 +1,13 @@
 'use client';
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 
-interface OverallRateProps {
-    value: number;
-}
-
-export default function OverallRating({ value }: OverallRateProps) {
+export default function OverallRating({ value }: { value : number}) {
     return (
         <Box sx={{ '& > legend': { mt: 2 } }}>
             <Rating
                 value={value}
-                precision={0.05}  // รองรับครึ่งดาว
+                precision={0.05}  // Supports half-star ratings
                 readOnly
                 sx={{
                     fontSize: '2rem',
