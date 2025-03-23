@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Noto Sans Thai font */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700&display=swap');
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -21,10 +24,12 @@ body {
   overflow-x: hidden;
 }
 
+/* Apply Noto Sans Thai font to the whole website */
 body {
   color: var(--foreground);
   background-color: white;
   margin-top: 60px;
+  font-family: 'Noto Sans Thai', sans-serif;
 }
 
 * {
