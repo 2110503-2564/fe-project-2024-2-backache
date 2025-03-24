@@ -28,7 +28,14 @@ export interface ReservationItem {
     _id: string,
     revDate: Date,
     user: string,
-    restaurant: string,
+    restaurant: {
+        _id: string,
+        name: string,
+        province: string,
+        tel: string,
+        imgPath: string,
+        id: string
+    },
     numberOfPeople: number,
     createdAt: Date,
     __v: number,

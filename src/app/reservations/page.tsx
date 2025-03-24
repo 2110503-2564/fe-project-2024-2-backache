@@ -2,42 +2,16 @@ import ReservationListItem from "@/components/ReservationListItem";
 import { ReservationJson, ReservationItem } from "../../../interfaces";
 import getReservations from "@/libs/getReservations";
 
+import { getServerSession } from "next-auth";
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
+
 export default async function ReservationPage(){
-    // const token = 'user_token';
-    // const reservationJson = await getReservations({token});
-    const mockData: ReservationJson = {
-        success: true,
-        count: 3,
-        data: [
-            {
-                _id: '607c72ef58b1e5a2dca1d7c4',
-                revDate: new Date('2025-03-25T18:00:00Z'),
-                user: '607c72ef58b1e5a2dca1d7c5',
-                restaurant: '67dbe3c2d2bc7d568ff9f427',
-                numberOfPeople: 4,
-                createdAt: new Date('2025-03-01T12:00:00Z'),
-                __v: 0,
-            } as ReservationItem,
-            {
-                _id: '607c72ef58b1e5a2dca1d7c7',
-                revDate: new Date('2025-03-26T19:30:00Z'),
-                user: '607c72ef58b1e5a2dca1d7c8',
-                restaurant: '67dbe3c2d2bc7d568ff9f427',
-                numberOfPeople: 2,
-                createdAt: new Date('2025-03-02T14:00:00Z'),
-                __v: 0,
-            } as ReservationItem,
-            {
-                _id: '607c72ef58b1e5a2dca1d7ca',
-                revDate: new Date('2025-03-27T20:15:00Z'),
-                user: '607c72ef58b1e5a2dca1d7cb',
-                restaurant: '67dbe3c2d2bc7d568ff9f427',
-                numberOfPeople: 6,
-                createdAt: new Date('2025-03-03T16:30:00Z'),
-                __v: 0,
-            } as ReservationItem
-        ]
-    };
+    const session = await getServerSession(authOptions);
+        
+    if(!session || !session.user || !session.user.token) return null;
+
+    const token = session.user.token;
+    const reservationJson : ReservationJson = await getReservations({token});
 
     return (
         <main>
@@ -49,9 +23,9 @@ export default async function ReservationPage(){
 
             <div className="reservation-list">
                 {
-                    mockData.data.map((reservationItem) => (
+                    reservationJson.data.map((reservationItem : ReservationItem) => (
                         <div key={reservationItem._id}>
-                            <ReservationListItem reservationItem={reservationItem}/>
+                            <ReservationListItem reservationItem={reservationItem} restaurantItem={{imgPath : reservationItem.restaurant.imgPath, name : reservationItem.restaurant.name}}/>
                         </div>
                     ))
                 }

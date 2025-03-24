@@ -1,9 +1,5 @@
 "use client";
-import Image from "next/image"
-import { StarIcon } from '@heroicons/react/20/solid'
-import { ClockIcon } from '@heroicons/react/24/outline'
-import { MapPinIcon } from '@heroicons/react/24/outline'
-import { PhoneIcon } from '@heroicons/react/24/outline'
+
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
@@ -11,16 +7,11 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import DatePicker from 'react-datepicker';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'react-datepicker/dist/react-datepicker.css';
-import Link from "next/link";
+import { Button } from '@mui/material';
 dayjs.extend(localizedFormat);
 dayjs.extend(isSameOrAfter)
 
-export default function Reservation(/*{params} : {params: {rid: string}}*/) {
-
-    // Mock Data
-    const mockRestaurant = new Map()
-    mockRestaurant.set("001", {name:"Tuaytung Icecream", image:"/img/tuaytung.jpg", address:"961 Soi Chula 12 Bantadthong Road, Bangkok 10330 Thailand", tel:"0614214702", openTime:"15:00", closeTime:"23:00", foodType:"Icecream", rating:"4.3"})
-
+export default function ReserveBox(){
     // Date
     const today = new Date()
     const [dateValue, setDateValue] = useState(dayjs());
@@ -82,46 +73,13 @@ export default function Reservation(/*{params} : {params: {rid: string}}*/) {
     const handleDecrement = () => {
         setCount((prevCount) => (prevCount > 1 ? prevCount - 1 : 1));
     };
-    
+
+    const handleReservation = async () =>{
+        
+    }
+
     return (
-        <main className="w-[100%] flex flex-col items-center justify-center">
-            {/*Banner*/}
-            <div className='w-screen h-[40vh] relative'>
-                <Image src={(mockRestaurant.get('001')).image}
-                    alt='cover'
-                    fill={true}
-                    priority
-                    objectFit='cover'/>
-                <div className="relative text-white z-20 flex flex-col items-center justify-end h-full">
-                    <div className="text-4xl font-bold items-center flex"
-                        style={{textShadow:'3px 3px 5px rgba(0, 0, 0, 0.6)'}}>
-                        {(mockRestaurant.get('001')).name}
-                        <StarIcon className="h-6 w-6 text-yellow-400 mt-1.5 ml-2"/>
-                        <span className="font-normal text-2xl mt-2 ml-1.5">{(mockRestaurant.get('001')).rating}</span>
-                    </div>
-                    <div className="text-lg pt-2 flex"
-                    style={{textShadow:'4px 4px 10px rgba(0, 0, 0, 0.9)'}}>
-                        <MapPinIcon className="h-5 w-5 mr-2 mt-1.5"/>
-                        {(mockRestaurant.get('001')).address}
-                    </div>
-                    <div className='pt-8'></div>
-                    <div className="text-black flex bg-gray-100 rounded-lg px-10 py-1">
-                        <ClockIcon className="h-5 w-5 mr-2 mt-0.5"/>
-                            {(mockRestaurant.get('001')).openTime} - {(mockRestaurant.get('001')).closeTime}
-                        <PhoneIcon className="h-5 w-5 ml-4 mr-2 mt-0.5"/>
-                            {(mockRestaurant.get('001')).tel}
-                    </div>
-                    <div className='pb-12'></div>
-                </div>
-            </div>
-
-            {/*Form*/}
-            <div className="text-3xl text-gray-800 pt-8 pb-8">
-                <div className='font-bold'>
-                    Edit the Reservation at {(mockRestaurant.get('001')).name}
-                </div>
-            </div>
-
+        <div>
             {/*Date*/}
             <div className="text-lg text-gray-800 flex flex-col items-center w-fit">
                 <div className="flex items-center justify-center">
@@ -191,17 +149,9 @@ export default function Reservation(/*{params} : {params: {rid: string}}*/) {
             <div className="text-md text-gray-700 flex justify-center pb-5">
                 Guests
             </div>
-
-            <div className="flex space-x-4 mb-4 font-semibold">
-                <Link href="/reservations">
-                    <button name="Discard Change" className="block w-[280px] bg-gray-500 border border-white text-white text-xl px-8 py-2 rounded-xl shadow-sm hover:bg-white hover:text-gray-500 hover:border hover:border-gray-500">
-                        Discard Change
-                    </button>
-                </Link>
-                <button name="Confirm Edit" className="block w-[280px] bg-myred border border-white text-white text-xl px-8 py-2 rounded-xl shadow-sm hover:bg-white hover:text-red-600 hover:border hover:border-red-600">
-                    Confirm Reservation
-                </button>
-            </div>
-        </main>
-    )
+            <Button name="Confirm" className="'block bg-red-600 border border-white text-white text-xl font-semibold py-2 px-10 m-5 rounded-xl shadow-sm hover:bg-white hover:text-red-600 hover:border hover:border-red-600">
+                Confirm Reservation
+            </Button>
+        </div>
+    );
 }
