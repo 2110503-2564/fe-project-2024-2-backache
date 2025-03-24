@@ -9,6 +9,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockIcon from '@mui/icons-material/Lock';
 import { User } from '../../interfaces';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function EditingMenu({user}: {user: User}) {
     const [userData, setUserData] = useState<User>(user);
@@ -35,7 +36,7 @@ export default function EditingMenu({user}: {user: User}) {
         <main>
             <div className="p-5 w-[70vw] mt-10 h-fit rounded-lg shadow-lg bg-white mx-auto px-5">
                 <h2 className="text-xl font-bold mb-4">ข้อมูลส่วนตัว</h2>
-                <Box sx={{ '& > :not(style)': { m: 2, width: '100%' } }}>
+                <Box sx={{ '& > :not(style)': { m: 2 } }}>
                     <TextField
                         label="ชื่อ"
                         placeholder="Name"
@@ -53,6 +54,7 @@ export default function EditingMenu({user}: {user: User}) {
                             sx: { fontSize: '1.2rem' },
                         }}
                         variant="standard"
+                        sx={{ width: '95%' }}
                     />
                     <TextField
                         label="เบอร์โทรศัพท์"
@@ -71,6 +73,7 @@ export default function EditingMenu({user}: {user: User}) {
                             sx: { fontSize: '1.2rem' },
                         }}
                         variant="standard"
+                        sx={{ width: '95%' }}
                     />
                     <TextField
                         label="อีเมล"
@@ -85,21 +88,28 @@ export default function EditingMenu({user}: {user: User}) {
                             readOnly: true,
                         }}
                         variant="standard"
+                        sx={{ width: '95%' }}
                     />
+                    <div className="flex items-center w-[95%]">
                     <TextField
                         label="รหัสผ่าน"
                         placeholder="Password"
                         value={'********'}
                         InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <LockIcon className='text-red-600' />
-                                </InputAdornment>
-                            ),
-                            readOnly: true,
+                        startAdornment: (
+                            <InputAdornment position="start">
+                            <LockIcon className='text-red-600' />
+                            </InputAdornment>
+                        ),
+                        readOnly: true,
                         }}
                         variant="standard"
+                        sx={{ width: '89%' }}
                     />
+                    <Link href="/user/changepassword" className='mt-4 ml-4 text-indigo-600 cursor-pointer hover:underline'>
+                        แก้ไขรหัสผ่าน
+                    </Link>
+                    </div>                    
                 </Box>
             </div>
             <div className='flex flex-row justify-center'>

@@ -1,7 +1,8 @@
 'use client'
-import { useReducer } from "react";
+import { useReducer, useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import Link from "next/link";
+import getRestaurants from "@/libs/getRestaurants";
 
 export default function RestaurantCardPanel() {
     const comparerReducer = (compareList:Map<string, number>, action:{type:string; restaurantName:string; rating?: number})=>{
@@ -21,42 +22,41 @@ export default function RestaurantCardPanel() {
         }
     }
 
-    const initialCompareList = new Map<string, number>([
-        ["Restaurant Name", 0],
-        ["Restaurant Name", 0],
-        ["Restaurant Name", 0],
-        ["Restaurant Name", 0]
-    ]);
-
+    const initialCompareList = new Map<string, number>([ ]);
     const [compareList, dispatchCompare] = useReducer(comparerReducer, initialCompareList);
+    const [restaurants, setRestaurants] = useState<any[]>([]);
 
-    /**
-     * Mock Data for Demontration Only
-     */
-    const mockRestaurantRepo = [
-        {rid: "001", name: "Restaurant 1", image: "/img/sushi.jpg", rating: 0.0},
-        {rid: "002", name: "Restaurant 2", image: "/img/pizza.jpg", rating: 0.0},
-        {rid: "003", name: "Restaurant 3", image: "/img/bbq.jpg", rating: 0.0},
-        {rid: "004", name: "Restaurant 4", image: "/img/tomyum_seafood.jpg", rating: 0.0}
-    ]
+    useEffect(() => {
+        const fetchRestaurants = async () => {
+            try {
+                const restaurantJson = await getRestaurants();
+                const shuffled = restaurantJson.data.sort(() => 0.5 - Math.random()).slice(0, 8);
+                setRestaurants(shuffled);
+            } catch (error) {
+                console.error("Error fetching restaurants:", error);
+            }
+        };
+        fetchRestaurants();
+    }, []);
+
     return (
         <div>
-            <div style={{margin:"20px", display:"flex", flexDirection:"row", flexWrap:"wrap", justifyContent:"space-around", alignContent:"space-around"}}>
+            <div style={{ margin: "20px", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "20px" }}>
                 {
-                    mockRestaurantRepo.map((restaurantItem)=>(
+                    restaurants.map((restaurantItem) => (
                         <Link 
-                        key={restaurantItem.rid}
-                        href={`/rating/${restaurantItem.rid}`}
-                        className="w-1/5">
+                            key={restaurantItem.id}
+                            href={`/restaurants/${restaurantItem.id}`}
+                            className="text-black">
                             <RestaurantCard 
                                 restaurantName={restaurantItem.name} 
-                                imgSrc={restaurantItem.image} 
-                                onCompare={(restaurant, rating) => dispatchCompare({type:'add', restaurantName:restaurant, rating})} 
-                                rid={restaurantItem.rid}
+                                imgSrc={restaurantItem.imgPath} 
+                                onCompare={(restaurant, rating) => dispatchCompare({ type: 'add', restaurantName: restaurant, rating })} 
+                                rid={restaurantItem.id}
                                 overallRating={restaurantItem.rating} 
                             />
-                        </Link>     
-                   ))
+                        </Link>
+                    ))
                 }
             </div>
         </div>
