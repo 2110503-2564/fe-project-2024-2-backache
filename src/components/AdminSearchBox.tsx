@@ -35,10 +35,10 @@ export default function AdminSearchBox() {
                 <label className="w-28 mr-5 font-medium">Date *</label>
                 <TextField type="date" InputLabelProps={{ shrink: true }} sx={{ flex: 1 }} required />
             </div>
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
                 <label className="w-28 mr-5 font-medium">Customer *</label>
                 <TextField sx={{ flex: 1 }} required />
-            </div>
+            </div> */}
             <button className="bg-[#D40303] text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-red-700">Search</button>
             </Stack>
         </div>
