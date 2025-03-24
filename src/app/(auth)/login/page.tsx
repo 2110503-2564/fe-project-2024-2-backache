@@ -26,7 +26,7 @@ export default function LoginPage() {
                 redirect: false,
             });
     
-            console.log('Login response:', response);
+            // console.log('Login response:', response);
     
             if (response?.error) {
                 alert('Error logging in, please try again.');

@@ -8,20 +8,20 @@ export const authOptions: AuthOptions = {
           name: "credentials",
           credentials: {},
           async authorize(credentials) {
-            console.log("Received credentials:", credentials);
+            // console.log("Received credentials:", credentials);
               if (!credentials) return null;
 
               const { email, password } = credentials as { email: string; password: string };
 
               try {
                   const user = await userLogIn({ userEmail: email, userPassword: password });
-                  console.log(user);
+                //   console.log(user);
 
                   if (!user) {
                       throw new Error('Invalid user');
                   }
 
-                  console.log("Authorized user:", user);
+                //   console.log("Authorized user:", user);
                   return user;
               } catch (error) {
                   console.error('Error during authorization:', error);
