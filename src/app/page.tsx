@@ -8,8 +8,9 @@ export default function Home() {
       <div className="
       px-10 py-10 
       text-[30px]
-      font-bold">
-        ร้านอาหารยอดนิยม
+      font-bold
+      text-black">
+        ร้านอาหารแนะนำ
       </div>
       <RestaurantCardPanel/>
     </main>

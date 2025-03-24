@@ -17,11 +17,6 @@ interface CardProps {
 export default function RestaurantCard({ restaurantName, imgSrc, onCompare, overallRating = 0, rid }: CardProps) {
     const router = useRouter();
 
-    // No useState because overallRating is used directly from the parent
-    const handleStarClick = () => {
-        router.push(`/rating/${rid}`);
-    };
-
     return (
         <InteractiveCard contentName={restaurantName}>
             <div className="w-full h-[70%] relative rounded-t-lg">
@@ -40,7 +35,6 @@ export default function RestaurantCard({ restaurantName, imgSrc, onCompare, over
                     display="flex"
                     alignItems="center"
                     sx={{ cursor: 'pointer' }}
-                    onClick={handleStarClick}
                 >
                     <StarIcon sx={{ color: '#FFD700' }} />
                     <Typography sx={{ marginLeft: '4px', marginTop: '3px'}}>{overallRating.toFixed(1)}</Typography>
