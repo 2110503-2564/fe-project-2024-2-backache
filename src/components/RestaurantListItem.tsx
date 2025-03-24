@@ -22,11 +22,19 @@ export default function RestaurantListItem({ restaurantItem }: { restaurantItem:
                     <Image className="mr-2" src="/icons/clock_icon.png" alt="Clock Icon" width={18} height={18} />
                     {restaurantItem.openTime} - {restaurantItem.closeTime}
                 </div>
+                <div className="flex flex-row">
                 <Link href={`/restaurants/${restaurantItem.id}`}>
-                    <button className="mt-4 px-6 py-2 text-white bg-[#D40303] rounded-xl hover:bg-red-700 transition-shadow shadow-lg hover:shadow-2xl w-[150px]">
+                    <button className="mt-4 mr-5 px-6 py-2 text-white bg-[#D40303] rounded-xl hover:bg-red-700 transition-shadow shadow-lg hover:shadow-2xl w-[150px]">
                         รายละเอียด
                     </button>
                 </Link>
+                <Link href={`/rating/${restaurantItem.id}`}>
+                    <button className="mt-4 px-6 py-2 text-white bg-green-600 rounded-xl hover:bg-green-700 transition-shadow shadow-lg hover:shadow-2xl w-[150px]">
+                        ให้คะแนน
+                    </button>
+                </Link>    
+                </div>
+                
             </div>
         </div>
     );
