@@ -3,6 +3,7 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { ClockIcon } from '@heroicons/react/24/outline'
 import { MapPinIcon } from '@heroicons/react/24/outline'
 import { PhoneIcon } from '@heroicons/react/24/outline'
+import Link from "next/link"
 import getRestaurant from "@/libs/getRestaurant"
 
 export default async function RestaurantDetailPage({params}: {params: {rid: string}}) {
@@ -36,7 +37,7 @@ export default async function RestaurantDetailPage({params}: {params: {rid: stri
                 </div> 
                 <div className="pt-2 flex">
                     <MapPinIcon className="h-5 w-5 mr-2 mt-0.5"/>
-                    {restaurantData.data.address}
+                    {restaurantData.data.address}, {restaurantData.data.district} {restaurantData.data.province} {restaurantData.data.postalcode}
                 </div>
                 <div className="text-xl font-bold pt-4">
                     About this Restaurant
@@ -61,9 +62,11 @@ export default async function RestaurantDetailPage({params}: {params: {rid: stri
                     </div>
                 </div>
             </div>
-            <button name="Reserve" className='block bg-myred border border-white text-white text-xl font-semibold py-2 px-10 m-5 rounded-xl z-30 absolute bottom-1 right-14 shadow-sm hover:bg-white hover:text-red-600 hover:border hover:border-red-600'>
-                Reserve
-            </button>
+            <Link href={`/reservations?restaurant=${restaurantData.data._id}`}>
+                <button name="Reserve" className='block bg-myred border border-white text-white text-xl font-semibold py-2 px-10 m-5 rounded-xl z-30 absolute bottom-7 right-14 shadow-sm hover:bg-white hover:text-red-600 hover:border hover:border-red-600'>
+                    Reserve
+                </button>
+            </Link>
         </main>
     )
 }
