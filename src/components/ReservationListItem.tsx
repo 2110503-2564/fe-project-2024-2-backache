@@ -1,9 +1,24 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
 import { ReservationItem } from "../../interfaces";
+import deleteReservation from "@/libs/deleteReservation";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 export default  function ReservationListItem({ reservationItem, restaurantItem }: { reservationItem: ReservationItem, restaurantItem : {imgPath : string, name : string} }) {
     const reservationDate = new Date(reservationItem.revDate);
+
+    const { data: session } = useSession();
+    const handleCancelReservation = async () => {
+        if(!session || !session.user.token) return null;
+        try {
+            await deleteReservation({ reservationId: reservationItem._id, token: session.user.token });
+            window.location.reload();
+        } catch (error: any) {
+            console.error("Failed to delete reservation:", error);
+        }
+    };
 
     return (
         <div  className="mx-20 my-10 flex items-start transition-shadow duration-300 border-b border-gray-300 pb-10 text-gray-600">
@@ -27,7 +42,8 @@ export default  function ReservationListItem({ reservationItem, restaurantItem }
                         Edit
                     </button>
                 </Link>
-                <button className="w-[150px] bg-[#D40303] text-white text-[22px] font-bold px-4 py-2 rounded-xl hover:bg-red-700 hover:shadow-lg transition-all">
+                <button onClick={handleCancelReservation}
+                    className='w-[150px] bg-[#D40303] text-white text-[22px] font-bold px-4 py-2 rounded-xl hover:bg-red-700 hover:shadow-lg transition-all'>
                     Cancel
                 </button>
             </div>
