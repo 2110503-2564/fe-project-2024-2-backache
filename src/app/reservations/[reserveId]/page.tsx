@@ -90,7 +90,7 @@
                         Make a Reservation at {restaurantDetail.name}
                     </div>
                 </div>
-                <ReserveBox/>
+                <ReserveBox restuarantId={restaurantDetail._id}/>
                 
             </main>
         )

@@ -1,4 +1,4 @@
-export default async function addReservation ({restaurantId, revDate, token} : {restaurantId : string, revDate : string, token : string}) {
+export default async function addReservation ({restaurantId, revDate, numberOfPeople, token} : {restaurantId : string, revDate : Date, numberOfPeople: number, token : string}) {
     const response = await fetch(process.env.BACKEND_URL+`api/v1/restaurants/${restaurantId}/reservations`, {
         method : 'POST',
         headers : {
@@ -6,7 +6,7 @@ export default async function addReservation ({restaurantId, revDate, token} : {
             'Content-Type' : 'application/json'
         },
         body : JSON.stringify({
-            token : token,
+            numberOfPeople : numberOfPeople,
             revDate : revDate
         }),
     });

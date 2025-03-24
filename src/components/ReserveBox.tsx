@@ -10,7 +10,15 @@ import 'react-datepicker/dist/react-datepicker.css';
 dayjs.extend(localizedFormat);
 dayjs.extend(isSameOrAfter)
 
-export default function ReserveBox(){
+import addReservation from '@/libs/addReservation';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+
+export default function ReserveBox({restuarantId} : {restuarantId : string}){
+    const rounter = useRouter();
+    const { data: session } = useSession();
+
     // Date
     const today = new Date()
     const [dateValue, setDateValue] = useState(dayjs());
@@ -80,7 +88,20 @@ export default function ReserveBox(){
         const [hours, minutes] = timeValue.split(':').map(Number);
         const combinedDateTime = dateValue.set('hour', hours).set('minute', minutes).set('second', 0).toDate();
       
-        console.log(combinedDateTime);
+        // console.log(combinedDateTime);
+                
+        if(!session || !session.user || !session.user.token) return null;
+    
+        const token = session.user.token;
+
+        try {
+            await addReservation({restaurantId : restuarantId, revDate : combinedDateTime, numberOfPeople : count, token});
+            alert('Reservation successful!');
+            rounter.replace('/reservations');
+        } catch (err : any) {
+            console.error('Error making reservation:', err);
+            alert(err.message || 'Failed to make reservation. Please try again.');
+        }
     };
 
     return (
