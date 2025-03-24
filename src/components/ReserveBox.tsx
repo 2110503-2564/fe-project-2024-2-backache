@@ -73,9 +73,15 @@ export default function ReserveBox(){
         setCount((prevCount) => (prevCount > 1 ? prevCount - 1 : 1));
     };
 
-    const handleReservation = async () =>{
-        
-    }
+    const handleReservation = async () => {
+        if (!dateValue || !timeValue) {
+            return null;
+        }
+        const [hours, minutes] = timeValue.split(':').map(Number);
+        const combinedDateTime = dateValue.set('hour', hours).set('minute', minutes).set('second', 0).toDate();
+      
+        console.log(combinedDateTime);
+    };
 
     return (
         <div>
@@ -148,7 +154,8 @@ export default function ReserveBox(){
             <div className="text-md text-gray-700 flex justify-center pb-5">
                 Guests
             </div>
-            <button name="Confirm" className="'block bg-red-600 border border-white text-white text-xl font-semibold py-2 px-10 m-5 rounded-xl shadow-sm hover:bg-white hover:text-red-600 hover:border hover:border-red-600">
+            <button name="Confirm" onClick={handleReservation}
+                className="'block bg-red-600 border border-white text-white text-xl font-semibold py-2 px-10 m-5 rounded-xl shadow-sm hover:bg-white hover:text-red-600 hover:border hover:border-red-600">
                 Confirm Reservation
             </button>
         </div>
