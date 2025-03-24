@@ -10,19 +10,8 @@ import LockIcon from '@mui/icons-material/Lock';
 import { User } from '../../interfaces';
 import { useState } from 'react';
 
-export default function EditingMenu() {
-
-    const mockData : User = {
-        _id: '12345',
-        name: 'K.Meow Meow',
-        tel: '123-456-7890',
-        email: 'meow@example.com',
-        role: 'user',
-        createdAt: new Date(),
-        __v: 0
-    }
-    
-    const [userData, setUserData] = useState<User>(mockData);
+export default function EditingMenu({user}: {user: User}) {
+    const [userData, setUserData] = useState<User>(user);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -33,11 +22,12 @@ export default function EditingMenu() {
     };
 
     const handCancle = () => {
-        setUserData(mockData);
+        setUserData(user);
         alert('Cancle');
     };
 
     const handleSave = () => {
+        // Do something with user database
         alert('Changes saved');
     };
 

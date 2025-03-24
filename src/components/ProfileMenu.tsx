@@ -2,20 +2,13 @@
 
 import Link from 'next/link';
 import { User } from '../../interfaces';
+import userLogOut from '@/libs/userLogout';
+import { signOut } from 'next-auth/react';
 
-export default function ProfileMenu() {
-    const handleLogout = () => {
+export default function ProfileMenu({user} : {user : User}) {
+    const handleLogout = async () => {
+        signOut();
         alert('Logged out');
-    };
-
-    const mockUser: User = {
-        _id: '12345',
-        name: 'K.Meow Meow',
-        tel: '123-456-7890',
-        email: 'meow@example.com',
-        role: 'user',
-        createdAt: new Date(),
-        __v: 0
     };
 
     return (
@@ -26,7 +19,7 @@ export default function ProfileMenu() {
             className='w-36 h-36 rounded-full shadow-lg'
             />
             <div className='p-5 text-2xl font-bold text-white'>
-                {mockUser.name}
+                {user.name}
             </div>
             <Link href="/user/profile" className='text-white hover:underline'>
                 แก้ไขข้อมูลส่วนตัว &gt;
