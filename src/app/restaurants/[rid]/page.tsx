@@ -4,7 +4,8 @@ import { ClockIcon } from '@heroicons/react/24/outline'
 import { MapPinIcon } from '@heroicons/react/24/outline'
 import { PhoneIcon } from '@heroicons/react/24/outline'
 
-export default function RestaurantDetailPage({params} : {params: {rid: string}}) {
+export default function RestaurantDetailPage() {
+    const params = {rid : "001"}; 
 
     // Mock Data
     const mockRestaurant = new Map()
