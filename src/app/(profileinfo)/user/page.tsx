@@ -1,6 +1,6 @@
 import ProfileMenu from '@/components/ProfileMenu';
 
-import { getServerSession, DefaultSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import getUserProfile from "@/libs/getUserProfile";
 
