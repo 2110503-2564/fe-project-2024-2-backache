@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image"
 import { StarIcon } from '@heroicons/react/20/solid'
 import { ClockIcon } from '@heroicons/react/24/outline'
@@ -6,15 +8,46 @@ import { PhoneIcon } from '@heroicons/react/24/outline'
 import getRestaurant from "@/libs/getRestaurant"
 import Link from "next/link"
 
-export default async function RestaurantDetailPage({params} : {params : {rid : string}}) {
-    if (!params?.rid) {
-        return <div className="m-5 text-lg text-medium">Invalid Restaurant ID</div>;
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation"
+
+export default function RestaurantDetailPage() {
+    const [restaurantDetail, setRestaurantDetail] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const { rid } = useParams();
+
+    useEffect(() => {
+        const fetchRestaurant = async () => {
+        if (rid) {
+            try {
+            const data = await getRestaurant(rid.toString());
+            if (data) {
+                setRestaurantDetail(data);
+            } else {
+                setError("Restaurant not found");
+            }
+            } catch (err) {
+            setError("Failed to load restaurant data");
+            } finally {
+            setLoading(false);
+            }
+        }
+        };
+
+        fetchRestaurant();
+    }, [rid]);
+
+    if (loading) {
+        return <div className="m-5 text-lg text-medium">Loading Restaurant...</div>;
     }
 
-    const restaurantDetail = await getRestaurant(params.rid);
+    if (error) {
+        return <div className="m-5 text-lg text-medium">{error}</div>;
+    }
 
     if (!restaurantDetail) {
-        return <div className="m-5 text-lg text-medium">Loading Restaurant...</div>;
+        return <div className="m-5 text-lg text-medium">Invalid Restaurant ID</div>;
     }
 
     return (
@@ -62,7 +95,7 @@ export default async function RestaurantDetailPage({params} : {params : {rid : s
                     </div>
                 </div>
             </div>
-            <Link href={`/reservations/${params.rid}`}>
+            <Link href={`/reservations/${rid}`}>
                 <button name="Reserve" className='block bg-myred border border-white text-white text-xl font-semibold py-2 px-10 m-5 rounded-xl z-30 absolute bottom-1 right-14 shadow-sm hover:bg-white hover:text-red-600 hover:border hover:border-red-600'>
                     Reserve
                 </button>
