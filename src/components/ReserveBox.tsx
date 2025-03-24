@@ -6,17 +6,22 @@ import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import DatePicker from 'react-datepicker';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone'
 import 'react-datepicker/dist/react-datepicker.css';
+const moment = require('moment-timezone');
 dayjs.extend(localizedFormat);
 dayjs.extend(isSameOrAfter)
+dayjs.extend(timezone)
+dayjs.extend(utc)
 
 import addReservation from '@/libs/addReservation';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
-export default function ReserveBox({restuarantId} : {restuarantId : string}){
-    const rounter = useRouter();
+export default function ReserveBox({restaurantId} : {restaurantId : string}){
+    const router = useRouter();
     const { data: session } = useSession();
 
     // Date
@@ -86,18 +91,22 @@ export default function ReserveBox({restuarantId} : {restuarantId : string}){
             return null;
         }
         const [hours, minutes] = timeValue.split(':').map(Number);
-        const combinedDateTime = dateValue.set('hour', hours).set('minute', minutes).set('second', 0).toDate();
-      
-        // console.log(combinedDateTime);
+        const tempDate = new Date(dateValue.toDate());
+        tempDate.setHours(hours+7, minutes, 0, 0);
+        const combinedDateTime = tempDate;
+
+        console.log("dateValue:", dateValue);
+        console.log("timeValue:", timeValue);
+        console.log("DateTime:", combinedDateTime);
                 
         if(!session || !session.user || !session.user.token) return null;
-    
         const token = session.user.token;
 
         try {
-            await addReservation({restaurantId : restuarantId, revDate : combinedDateTime, numberOfPeople : count, token});
+
+            await addReservation({restaurantId : restaurantId, revDate : combinedDateTime, numberOfPeople : count, token});
             alert('Reservation successful!');
-            rounter.replace('/reservations');
+            router.replace('/reservations');
         } catch (err : any) {
             console.error('Error making reservation:', err);
             alert(err.message || 'Failed to make reservation. Please try again.');
