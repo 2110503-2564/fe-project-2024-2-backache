@@ -90,7 +90,7 @@ export default function RatingDetailPage() {
     }
 
     return (
-        <main className="text-center">
+        <main className="text-center pb-10">
             {/* Image */}
             <div className="block p-5 m-0 w-screen h-[80vh] relative">
                 <Image
