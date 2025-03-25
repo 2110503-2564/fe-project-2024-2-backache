@@ -10,6 +10,7 @@ import { RestaurantItem } from '../../../../interfaces';
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import ReserveBox from '@/components/ReserveBox';
+import dayjs from 'dayjs';
 
 export default function Reservation() {
     const [restaurantDetail, setRestaurantDetail] = useState<RestaurantItem | null>(null);

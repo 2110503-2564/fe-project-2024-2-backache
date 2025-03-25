@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation'
 import getReservation from "@/libs/getReservation";
 import { OneReservationJson } from "../../interfaces";
-
+import dayjs from 'dayjs';
 import Image from "next/image"
 import { StarIcon } from '@heroicons/react/20/solid'
 import { ClockIcon } from '@heroicons/react/24/outline'
@@ -24,14 +25,17 @@ export default function EditBox({ reservationId, token }: { reservationId: strin
                 console.error(error);
             }
         };
-
         fetchReservation();
     }, [reservationId, token]);
 
     if (!reservation || !reservation.data) return;
     const restaurant = reservation.data.restaurant;
-
     // console.log(restaurant);
+
+    const router = useRouter();
+    const handleDiscard = () => {
+        router.push('/reservations');
+    };
 
     return (
         <div className="w-[100%] flex flex-col items-center justify-center">
@@ -70,17 +74,17 @@ export default function EditBox({ reservationId, token }: { reservationId: strin
             {/*Form*/}
             <div className="text-3xl text-gray-800 pt-8 pb-8">
                 <div className='font-bold'>
-                    Make a Reservation at {restaurant.name}
+                    Edit the Reservation at {restaurant.name}
                 </div>
             </div>
-            <ReserveBox restaurantId={restaurant._id} isUpdate={true} reservationId={reservationId}/>
+            <ReserveBox restaurantId={restaurant._id} isUpdate={true} reservationId={reservationId} reservationData={reservation}/>
 
             <div className="flex space-x-4 mb-4 font-semibold">
+                {/*onClick={() => window.location.href = '/reservations'}*/}
                 <button 
                     name="Discard Change" 
                     className="block w-[280px] bg-gray-500 border border-white text-white text-xl px-8 py-2 rounded-xl shadow-sm hover:bg-white hover:text-gray-500 hover:border hover:border-gray-500"
-                    onClick={() => window.location.href = '/reservations'}
-                >
+                    onClick={() => handleDiscard()}>
                     Discard Change
                 </button>
              </div>

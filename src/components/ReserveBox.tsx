@@ -1,32 +1,46 @@
 "use client";
-
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import DatePicker from 'react-datepicker';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';;
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone'
+import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
+import { OneReservationJson } from "../../interfaces";
 dayjs.extend(localizedFormat);
 dayjs.extend(isSameOrAfter)
 dayjs.extend(timezone)
 dayjs.extend(utc)
 
 import addReservation from '@/libs/addReservation';
+import editReservation from '@/libs/editReservation';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import editReservation from '@/libs/editReservation';
+import { useEffect } from "react";
 
-export default function ReserveBox({restaurantId, isUpdate, reservationId} : {restaurantId : string, isUpdate : boolean, reservationId?:string}){
+export default function ReserveBox({restaurantId, isUpdate, reservationId, reservationData} : {restaurantId:string, isUpdate:boolean, reservationId?:string, reservationData?:OneReservationJson}){
     const router = useRouter();
     const { data: session } = useSession();
 
+    const [dateValue, setDateValue] = useState(dayjs());
+    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+    const [timeValue, setTimeValue] = useState('12:00');
+    const [count, setCount] = useState<number>(1);
+
+    useEffect(() => {
+        if (reservationData) {
+            console.log("ReservationData", reservationData);
+            const tempReservationData = dayjs(reservationData.data.revDate).subtract(7, 'hour');
+            setDateValue(dayjs(tempReservationData));
+            setTimeValue(dayjs(tempReservationData).format('HH:mm'));
+            setCount(reservationData.data.numberOfPeople);
+        }
+    }, [reservationData]);
+
     // Date
     const today = new Date()
-    const [dateValue, setDateValue] = useState(dayjs());
-    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
     const handleDateChange = (date: Date | null) => {
         if (date) {
             const dayjsDate = dayjs(date);
@@ -49,7 +63,6 @@ export default function ReserveBox({restaurantId, isUpdate, reservationId} : {re
     };
 
     // Time
-    const [timeValue, setTimeValue] = useState('12:00');
     const handleIncrementTime = () => {
         const [hours, minutes] = timeValue.split(':').map(Number);
         let newHours = hours + 1;
@@ -73,7 +86,6 @@ export default function ReserveBox({restaurantId, isUpdate, reservationId} : {re
     };
 
     // Guests
-    const [count, setCount] = useState<number>(1);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(event.target.value);
         setCount(isNaN(value) || value < 1 ? 1 : value);
@@ -93,16 +105,14 @@ export default function ReserveBox({restaurantId, isUpdate, reservationId} : {re
         const tempDate = new Date(dateValue.toDate());
         tempDate.setHours(hours+7, minutes, 0, 0);
         const combinedDateTime = tempDate;
-
-        console.log("dateValue:", dateValue);
-        console.log("timeValue:", timeValue);
-        console.log("DateTime:", combinedDateTime);
+        // console.log("dateValue:", dateValue);
+        // console.log("timeValue:", timeValue);
+        // console.log("DateTime:", combinedDateTime);
                 
         if(!session || !session.user || !session.user.token) return null;
         const token = session.user.token;
 
         try {
-
             await addReservation({restaurantId : restaurantId, revDate : combinedDateTime, numberOfPeople : count, token});
             alert('Reservation successful!');
             router.replace('/reservations');
@@ -120,10 +130,9 @@ export default function ReserveBox({restaurantId, isUpdate, reservationId} : {re
         const tempDate = new Date(dateValue.toDate());
         tempDate.setHours(hours+7, minutes, 0, 0);
         const combinedDateTime = tempDate;
-
-        console.log("dateValue:", dateValue);
-        console.log("timeValue:", timeValue);
-        console.log("DateTime:", combinedDateTime);
+        // console.log("dateValue:", dateValue);
+        // console.log("timeValue:", timeValue);
+        // console.log("DateTime:", combinedDateTime);
                 
         if(!session || !session.user || !session.user.token) return null;
         const token = session.user.token;
@@ -143,8 +152,8 @@ export default function ReserveBox({restaurantId, isUpdate, reservationId} : {re
     return (
         <div>
             {/*Date*/}
-            <div className="text-lg text-gray-800 flex flex-col items-center w-fit">
-                <div className="flex items-center justify-center">
+            <div className="text-lg text-gray-800 flex flex-col items-center w-full">
+                <div className="flex items-center justify-center w-full">
                     <button className="px-5 disabled:text-gray-400" onClick={handleDecrementDate} disabled={dateValue.isSame(dayjs(), 'day')}>
                         <ChevronLeftIcon className="h-6 w-6" />
                     </button>
@@ -176,7 +185,7 @@ export default function ReserveBox({restaurantId, isUpdate, reservationId} : {re
             </div>
 
             {/*Time*/}
-            <div className="text-lg text-gray-800 flex items-center w-fit flex flex-row justify-center">
+            <div className="text-lg text-gray-800 flex items-center w-full flex flex-row justify-center">
                 <button onClick={handleDecrementTime} className="px-5">
                     <ChevronLeftIcon className="h-6 w-6" />
                 </button>
@@ -194,7 +203,7 @@ export default function ReserveBox({restaurantId, isUpdate, reservationId} : {re
             </div>
 
             {/*Guests*/}
-            <div className="text-lg text-gray-800 flex items-center w-fit flex flex-row justify-center">
+            <div className="text-lg text-gray-800 flex items-center w-full flex flex-row justify-center">
                 <button className="px-5 disabled:text-gray-400" onClick={handleDecrement} disabled={count === 1}>
                     <ChevronLeftIcon className="h-6 w-6" />
                 </button>
