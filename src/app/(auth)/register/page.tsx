@@ -12,7 +12,7 @@ export default function RegisterPage() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [tel, setTel] = useState('');
 
-    const rounter = useRouter();
+    const router = useRouter();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -41,7 +41,7 @@ export default function RegisterPage() {
             });
 
             alert('Registration successful!');
-            rounter.replace('/login');
+            router.replace('/login');
         } catch (err : any) {
             console.error('Error registering user:', err);
             alert(err.message || 'Failed to register. Please try again.');

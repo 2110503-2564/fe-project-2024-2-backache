@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from "react";
-import { useRouter } from 'next/navigation'
 import getReservation from "@/libs/getReservation";
 import { OneReservationJson } from "../../interfaces";
 import dayjs from 'dayjs';
@@ -31,11 +30,6 @@ export default function EditBox({ reservationId, token }: { reservationId: strin
     if (!reservation || !reservation.data) return;
     const restaurant = reservation.data.restaurant;
     // console.log(restaurant);
-
-    const router = useRouter();
-    const handleDiscard = () => {
-        router.push('/reservations');
-    };
 
     return (
         <div className="w-[100%] flex flex-col items-center justify-center">
@@ -80,11 +74,10 @@ export default function EditBox({ reservationId, token }: { reservationId: strin
             <ReserveBox restaurantId={restaurant._id} isUpdate={true} reservationId={reservationId} reservationData={reservation}/>
 
             <div className="flex space-x-4 mb-4 font-semibold">
-                {/*onClick={() => window.location.href = '/reservations'}*/}
                 <button 
                     name="Discard Change" 
                     className="block w-[280px] bg-gray-500 border border-white text-white text-xl px-8 py-2 rounded-xl shadow-sm hover:bg-white hover:text-gray-500 hover:border hover:border-gray-500"
-                    onClick={() => handleDiscard()}>
+                    onClick={() => window.location.href = '/reservations'}>
                     Discard Change
                 </button>
              </div>

@@ -69,8 +69,8 @@ export default function RestaurantDetailPage() {
                     </span>
                 </div> 
                 <div className="pt-2 flex">
-                    <MapPinIcon className="h-5 w-5 mr-2 mt-1.5"/>
-                    {restaurantDetail.data.address}
+                    <MapPinIcon className="h-5 w-5 mr-2 mt-0.5"/>
+                    {restaurantDetail.data.address}, {restaurantDetail.data.district}, {restaurantDetail.data.province}, Thailand {restaurantDetail.data.postalcode}
                 </div>
                 <div className="text-xl font-bold pt-4">
                     About this Restaurant
@@ -86,11 +86,11 @@ export default function RestaurantDetailPage() {
                         </span>
                     </div>
                     <div className="flex pt-1.5">
-                        <ClockIcon className="h-5 w-5 mr-3 mt-1.5"/>
+                        <ClockIcon className="h-5 w-5 mr-3 mt-0.5"/>
                         {restaurantDetail.data.openTime} - {restaurantDetail.data.closeTime}
                     </div>
                     <div className="flex pt-1.5 pb-10">
-                        <PhoneIcon className="h-5 w-5 mr-3 mt-1.5"/>
+                        <PhoneIcon className="h-5 w-5 mr-3 mt-0.5"/>
                         {restaurantDetail.data.tel}
                     </div>
                 </div>
