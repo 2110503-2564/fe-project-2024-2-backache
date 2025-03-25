@@ -15,13 +15,13 @@ export default function Reservation() {
     const [restaurantDetail, setRestaurantDetail] = useState<RestaurantItem | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const { reserveId } = useParams();
+    const { rid } = useParams();
 
     useEffect(() => {
         const fetchRestaurant = async () => {
-        if (reserveId) {
+        if (rid) {
             try {
-            const restaurantJson = await getRestaurant(reserveId.toString());
+            const restaurantJson = await getRestaurant(rid.toString());
             if (restaurantJson) {
                 setRestaurantDetail(restaurantJson.data);
             } else {
@@ -35,7 +35,7 @@ export default function Reservation() {
         }
         };
         fetchRestaurant();
-    }, [reserveId]);
+    }, [rid]);
     
     if (loading) {
         return <div className="m-5 text-lg text-medium">Loading Restaurant...</div>;
@@ -89,7 +89,7 @@ export default function Reservation() {
                     Make a Reservation at {restaurantDetail.name}
                 </div>
             </div>
-            <ReserveBox restaurantId={restaurantDetail._id}/>   
+            <ReserveBox restaurantId={restaurantDetail._id} isUpdate={false}/>   
         </main>
     )
 }

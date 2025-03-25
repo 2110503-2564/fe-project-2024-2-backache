@@ -9,18 +9,17 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone'
 import 'react-datepicker/dist/react-datepicker.css';
-const moment = require('moment-timezone');
 dayjs.extend(localizedFormat);
 dayjs.extend(isSameOrAfter)
 dayjs.extend(timezone)
 dayjs.extend(utc)
 
 import addReservation from '@/libs/addReservation';
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import editReservation from '@/libs/editReservation';
 
-export default function ReserveBox({restaurantId} : {restaurantId : string}){
+export default function ReserveBox({restaurantId, isUpdate, reservationId} : {restaurantId : string, isUpdate : boolean, reservationId?:string}){
     const router = useRouter();
     const { data: session } = useSession();
 
@@ -86,7 +85,7 @@ export default function ReserveBox({restaurantId} : {restaurantId : string}){
         setCount((prevCount) => (prevCount > 1 ? prevCount - 1 : 1));
     };
 
-    const handleReservation = async () => {
+    const handleMakeReservation = async () => {
         if (!dateValue || !timeValue) {
             return null;
         }
@@ -112,6 +111,34 @@ export default function ReserveBox({restaurantId} : {restaurantId : string}){
             alert(err.message || 'Failed to make reservation. Please try again.');
         }
     };
+
+    const handleEditReservation = async () => {
+        if (!dateValue || !timeValue) {
+            return null;
+        }
+        const [hours, minutes] = timeValue.split(':').map(Number);
+        const tempDate = new Date(dateValue.toDate());
+        tempDate.setHours(hours+7, minutes, 0, 0);
+        const combinedDateTime = tempDate;
+
+        console.log("dateValue:", dateValue);
+        console.log("timeValue:", timeValue);
+        console.log("DateTime:", combinedDateTime);
+                
+        if(!session || !session.user || !session.user.token) return null;
+        const token = session.user.token;
+
+        if(!reservationId) return null;
+
+        try {
+            await editReservation({reservationId : reservationId, revDate : combinedDateTime, numberOfPeople : count, token});
+            alert('Edit Reservation successful!');
+            router.replace('/reservations');
+        } catch (err : any) {
+            console.error('Error making reservation:', err);
+            alert(err.message || 'Failed to edit reservation. Please try again.');
+        }
+    }
 
     return (
         <div>
@@ -184,9 +211,9 @@ export default function ReserveBox({restaurantId} : {restaurantId : string}){
             <div className="text-md text-gray-700 flex justify-center pb-5">
                 Guests
             </div>
-            <button name="Confirm" onClick={handleReservation}
+            <button name="Confirm" onClick={isUpdate ? handleEditReservation : handleMakeReservation}
                 className="'block bg-red-600 border border-white text-white text-xl font-semibold py-2 px-10 m-5 rounded-xl shadow-sm hover:bg-white hover:text-red-600 hover:border hover:border-red-600">
-                Confirm Reservation
+                {isUpdate ? 'Update Reservation' : 'Confirm Reservation'}
             </button>
         </div>
     );

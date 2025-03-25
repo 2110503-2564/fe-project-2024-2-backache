@@ -2,15 +2,15 @@ export interface RestaurantItem {
     _id: string,
     name: string,
     description?: string,
-    foodType: string,
-    address: string,
+    foodType?: string,
+    address?: string,
     province: string,
-    district: string,
-    postalcode: string,
+    district?: string,
+    postalcode?: string,
     tel?: string,
-    openTime: string,
-    closeTime: string,
-    rating: number,
+    openTime?: string,
+    closeTime?: string,
+    rating?: number,
     maxReservation: number,
     imgPath: string,
     __v?: number,
@@ -28,24 +28,23 @@ export interface ReservationItem {
     _id: string,
     revDate: Date,
     user: string,
-    restaurant: {
-        _id: string,
-        name: string,
-        province: string,
-        tel: string,
-        imgPath: string,
-        id: string
-    },
+    restaurant: RestaurantItem,
     numberOfPeople: number,
     createdAt: Date,
     __v: number,
+    id?: string
 }
 
 export interface ReservationJson {
     success: boolean,
-    count: number,
+    count?: number,
     pagination?: Pagination,
     data: ReservationItem[]
+}
+
+export interface OneReservationJson {
+    success: boolean,
+    data: ReservationItem
 }
 
 export interface Pagination {

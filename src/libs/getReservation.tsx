@@ -5,7 +5,6 @@ export default async function getReservation({id, token} : {id: string, token: s
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
-        credentials: 'include',
     });
 
     if(!response.ok){
