@@ -6,9 +6,9 @@ import Image from 'next/image';
 export default function Banner() {
   const covers = [
     '/img/somtum.jpg',
-    '/img/cover2.jpg',
-    '/img/cover3.jpg',
-    '/img/cover4.jpg',
+    '/img/sushi.jpg',
+    '/img/pizza.jpg',
+    '/img/tuaytung.jpg',
   ];
   const [index, setIndex] = useState(0);
   const router = useRouter();
