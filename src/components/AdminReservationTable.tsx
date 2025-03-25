@@ -6,7 +6,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
-export default async function Admin() {
+export default async function AdminReservationTable() {
     const session = await getServerSession(authOptions);
     
     if (!session || !session.user || !session.user.token) return null;
@@ -23,17 +23,18 @@ export default async function Admin() {
 
     return (
         <main>
-            <div className="flex flex-center p-5 w-[90vw] max-w-[850px] mt-10 h-fit rounded-lg shadow-lg bg-white mx-auto px-5">
+            <div className="flex flex-center p-5 w-[90vw] mt-10 h-fit rounded-lg shadow-lg bg-white mx-auto px-5">
                 <table className="w-full border-collapse border border-gray-300">
                     <thead>
                         <tr className="bg-gray-100">
+                        <th className="border border-gray-300 px-4 py-2">Reservation Id</th>
                             <th className="border border-gray-300 px-4 py-2">Date</th>
                             <th className="border border-gray-300 px-4 py-2">Time</th>
-                            {/* <th className="border border-gray-300 px-4 py-2">User</th> */}
+                            <th className="border border-gray-300 px-4 py-2">User Id</th>
                             <th className="border border-gray-300 px-4 py-2">Guests</th>
                             <th className="border border-gray-300 px-4 py-2">Restaurant</th>
                             <th className="border border-gray-300 px-4 py-2">Edit</th>
-                            <th className="border border-gray-300 px-4 py-2">Delete</th>
+                            <th className="border border-gray-300 px-4 py-2">Cancle</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,18 +42,19 @@ export default async function Admin() {
                             const reservationDate = new Date(reservationItem.revDate);
                             return (
                                 <tr key={reservationItem._id} className="border-t border-gray-300">
+                                    <td className="border border-gray-300 px-4 py-2">{reservationItem._id}</td>
                                     <td className="border border-gray-300 px-4 py-2">{reservationDate.toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'long', year: 'numeric' })}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{reservationDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                                    {/* <td className="border border-gray-300 px-4 py-2">{reservationItem.user}</td> */}
-                                    <td className="border border-gray-300 px-4 py-2">{reservationItem.numberOfPeople}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{reservationDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{reservationItem.user}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{reservationItem.numberOfPeople}</td>
                                     <td className="border border-gray-300 px-4 py-2">{reservationItem.restaurant.name}</td> 
-                                    <td className="border border-gray-300 px-4 py-2">
+                                    <td className="border border-gray-300 px-4 py-2 text-center">
                                       <Link href={`/reservations/edit/${reservationItem._id}`} passHref>
                                       <button className="bg-green-600 text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-green-700">Edit</button>
                                       </Link>
                                     </td>
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        <button className="bg-[#D40303] text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-red-700">Delete</button>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">
+                                        <button className="bg-[#D40303] text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-red-700">Cancle</button>
                                     </td>
                                 </tr>
                             );
